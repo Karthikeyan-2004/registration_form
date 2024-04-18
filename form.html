@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Registration Form</title>
+  <!-- Bootstrap CSS -->
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Custom CSS -->
+  <style>
+    .s{
+      color:#405de6;
+    }
+    body {
+      background-color: #f8f9fa;
+    }
+    .container {
+      max-width: 500px;
+      margin: 0 auto;
+      margin-top: 50px;
+      background-color: #fff;
+      padding: 30px;
+      border-radius: 10px;
+      box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
+    }
+    .form-control {
+      border-radius: 20px;
+    }
+    .btn-primary {
+      border-radius: 20px;
+      padding: 10px 25px;
+      font-weight: bold;
+      background-color: #007bff;
+      border-color: #007bff;
+    }
+    .btn-primary:hover {
+      background-color: #0056b3;
+      border-color: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2 class="mb-4 text-center">Registration Form</h2>
+    <form id="registrationForm">
+      <div class="form-group">
+        <input type="text" class="form-control" id="fullName" placeholder="Full Name" required>
+      </div>
+      <div class="form-group">
+        <input type="email" class="form-control" id="email" placeholder="Email Address" disabled required>
+      </div>
+      <div class="form-group">
+        <input type="tel" class="form-control" id="phone" placeholder="Phone Number" disabled required>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="address" placeholder="Address" disabled required>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="city" placeholder="City" disabled required>
+      </div>
+      <div class="form-group">
+        <input type="text" class="form-control" id="country" placeholder="Country" disabled required>
+      </div>
+      <div class="form-group form-check">
+        <input type="checkbox" class="form-check-input" id="agreeTerms" required>
+        <label class="form-check-label" for="agreeTerms">I agree to the terms and conditions</label>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Submit</button>
+    </form>
+  </div>
+
+  <!-- Bootstrap JS and dependencies -->
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script>
+     function enableNextInput(currentInputId, nextInputId) {
+      var currentInput = document.getElementById(currentInputId);
+      var nextInput = document.getElementById(nextInputId);
+      if (currentInput.value !== "") {
+        nextInput.removeAttribute("disabled");
+        nextInput.focus();
+      } else {
+        nextInput.setAttribute("disabled", "disabled");
+      }
+    }
+    document.getElementById("fullName").addEventListener("input", function() {
+      enableNextInput("fullName", "email");
+    });
+    document.getElementById("email").addEventListener("input", function() {
+      enableNextInput("email", "phone");
+    });
+    document.getElementById("phone").addEventListener("input", function() {
+      enableNextInput("phone", "address");
+    });
+    document.getElementById("address").addEventListener("input", function() {
+      enableNextInput("address", "city");
+    });
+    document.getElementById("city").addEventListener("input", function() {
+      enableNextInput("city", "country");
+    });
+    document.getElementById("registrationForm").addEventListener("submit", function(event) {
+      event.preventDefault(); // Prevent form submission
+
+      var fullName = document.getElementById('fullName').value;
+      var email = document.getElementById('email').value;
+      var phone = document.getElementById('phone').value;
+      var address = document.getElementById('address').value;
+      var city = document.getElementById('city').value;
+      var country = document.getElementById('country').value;
+
+      var formData = {
+        fullName: fullName,
+        email: email,
+        phone: phone,
+        address: address,
+        city: city,
+        country: country
+      };
+
+      if (document.getElementById('agreeTerms').checked) {
+        // Display success modal
+        $('#successModal').modal('show');
+
+        // Store form data in sessionStorage
+        sessionStorage.setItem('formData', JSON.stringify(formData));
+
+        // Redirect after 2 seconds
+        setTimeout(function () {
+          window.location.href = 'display.html';
+        }, 2000);
+      }
+    });
+    
+  </script>
+
+  <!-- Success Modal -->
+  <div class="modal fade" id="successModal" tabindex="-1" role="dialog" aria-labelledby="successModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="successModalLabel">Registered Successfully!</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body s">
+          Your registration has been successful.
+        </div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>
